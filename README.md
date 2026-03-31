@@ -1,6 +1,6 @@
 # Sistema de Domésticas
 
-Plataforma para gestionar tareas domésticas en hogares compartidos utilizando arquitectura limpia (Clean Architecture).
+Plataforma para gestionar tareas domésticas en hogares compartidos utilizando arquitectura hexagonal (Hexagonal Architecture).
 
 ## Descripción del Proyecto
 
@@ -17,7 +17,7 @@ Esta aplicación permite organizar y distribuir tareas domésticas en hogares co
 
 ## Arquitectura
 
-El proyecto sigue los principios de **Clean Architecture**, separando las preocupaciones en capas claramente definidas:
+El proyecto sigue los principios de **Hexagonal Architecture**, separando las preocupaciones en capas claramente definidas:
 
 - **Domain**: Entidades de negocio, reglas de negocio y interfaces de repositorio
 - **Application**: Casos de uso y servicios de aplicación
