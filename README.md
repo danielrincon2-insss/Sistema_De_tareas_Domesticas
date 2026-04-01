@@ -32,14 +32,6 @@ El proyecto sigue los principios de **Hexagonal Architecture**, separando las pr
 - **PostgreSQL**
 - **Maven**
 
-## Configuración
-
-1. **Base de Datos**: Configurar PostgreSQL y actualizar `application.properties` con las credenciales correctas.
-
-2. **Dependencias**: Ejecutar `mvn install` para instalar las dependencias.
-
-3. **Ejecución**: Ejecutar `mvn spring-boot:run` para iniciar la aplicación.
-
 ## Endpoints API
 
 ### Usuarios
@@ -98,7 +90,6 @@ src/
     └── java/
         └── com/domesticas/
 ```
-
 ## Próximos Pasos
 
 - Implementar autenticación y autorización
