@@ -1,5 +1,6 @@
 package com.domesticas.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,6 +20,7 @@ public class User {
     private String name;
 
     @Column(nullable = false)
+    @JsonIgnore
     private String password;
 
     @ManyToOne
@@ -26,6 +28,7 @@ public class User {
     private Group group;
 
     @OneToMany(mappedBy = "assignedTo", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Task> assignedTasks;
 
     @Column(name = "created_at")
@@ -34,7 +37,6 @@ public class User {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    // Constructors
     public User() {}
 
     public User(String email, String name, String password) {
@@ -45,7 +47,6 @@ public class User {
         this.updatedAt = LocalDateTime.now();
     }
 
-    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

@@ -19,7 +19,12 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody CreateUserRequest request) {
-        User user = userService.createUser(request.email, request.name, request.password);
+        User user = userService.createUser(
+                request.email,
+                request.name,
+                request.password,
+                request.groupId
+        );
         return ResponseEntity.ok(user);
     }
 
@@ -51,5 +56,6 @@ public class UserController {
         public String email;
         public String name;
         public String password;
+        public Long groupId;
     }
 }

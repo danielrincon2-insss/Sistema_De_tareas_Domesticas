@@ -23,6 +23,10 @@ public class Task {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    private Difficulty difficulty;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Status status;
 
     @Column(name = "due_date")
@@ -42,13 +46,15 @@ public class Task {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    // Constructors
-    public Task() {}
+    public Task() {
+    }
 
-    public Task(String title, String description, Priority priority, LocalDateTime dueDate, User assignedTo, Group group) {
+    public Task(String title, String description, Priority priority, Difficulty difficulty,
+                LocalDateTime dueDate, User assignedTo, Group group) {
         this.title = title;
         this.description = description;
         this.priority = priority;
+        this.difficulty = difficulty;
         this.status = Status.PENDING;
         this.dueDate = dueDate;
         this.assignedTo = assignedTo;
@@ -57,43 +63,103 @@ public class Task {
         this.updatedAt = LocalDateTime.now();
     }
 
-    // Enums
     public enum Priority {
         LOW, MEDIUM, HIGH
     }
 
-    public enum Status {
-        PENDING, IN_PROGRESS, COMPLETED, CANCELLED
+    public enum Difficulty {
+        LOW, MEDIUM, HIGH
     }
 
-    // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public enum Status {
+        PENDING, ASSIGNED, IN_PROGRESS, COMPLETED, CANCELLED
+    }
 
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public Priority getPriority() { return priority; }
-    public void setPriority(Priority priority) { this.priority = priority; }
+    public String getTitle() {
+        return title;
+    }
 
-    public Status getStatus() { return status; }
-    public void setStatus(Status status) { this.status = status; }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-    public LocalDateTime getDueDate() { return dueDate; }
-    public void setDueDate(LocalDateTime dueDate) { this.dueDate = dueDate; }
+    public String getDescription() {
+        return description;
+    }
 
-    public User getAssignedTo() { return assignedTo; }
-    public void setAssignedTo(User assignedTo) { this.assignedTo = assignedTo; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    public Group getGroup() { return group; }
-    public void setGroup(Group group) { this.group = group; }
+    public Priority getPriority() {
+        return priority;
+    }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public void setPriority(Priority priority) {
+        this.priority = priority;
+    }
 
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(LocalDateTime dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public User getAssignedTo() {
+        return assignedTo;
+    }
+
+    public void setAssignedTo(User assignedTo) {
+        this.assignedTo = assignedTo;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }

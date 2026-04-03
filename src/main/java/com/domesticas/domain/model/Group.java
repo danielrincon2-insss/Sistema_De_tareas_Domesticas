@@ -1,6 +1,9 @@
 package com.domesticas.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,21 +20,25 @@ public class Group {
     @Column
     private String description;
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
-    private List<User> users;
+    @Column(name = "last_weekly_assignment_date")
+    private LocalDate lastWeeklyAssignmentDate;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
-    private List<Task> tasks;
+    @JsonIgnore
+    private List<User> users = new ArrayList<>();
 
-    // Constructors
-    public Group() {}
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Task> tasks = new ArrayList<>();
+
+    public Group() {
+    }
 
     public Group(String name, String description) {
         this.name = name;
         this.description = description;
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -54,6 +61,14 @@ public class Group {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public LocalDate getLastWeeklyAssignmentDate() {
+        return lastWeeklyAssignmentDate;
+    }
+
+    public void setLastWeeklyAssignmentDate(LocalDate lastWeeklyAssignmentDate) {
+        this.lastWeeklyAssignmentDate = lastWeeklyAssignmentDate;
     }
 
     public List<User> getUsers() {

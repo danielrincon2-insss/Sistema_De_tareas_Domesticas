@@ -1,18 +1,17 @@
-C:\Users\Daniel\Desktop\Proyecto domesticas\src\main\java\com\domesticas\application\GroupService.java
-C:\Users\Daniel\Desktop\Proyecto domesticas\src\main\java\com\domesticas\application\ports\GroupRepository.java
-C:\Users\Daniel\Desktop\Proyecto domesticas\src\main\java\com\domesticas\application\ports\TaskRepository.java
-C:\Users\Daniel\Desktop\Proyecto domesticas\src\main\java\com\domesticas\application\ports\UserRepository.java
-C:\Users\Daniel\Desktop\Proyecto domesticas\src\main\java\com\domesticas\application\TaskService.java
-C:\Users\Daniel\Desktop\Proyecto domesticas\src\main\java\com\domesticas\application\UserService.java
-C:\Users\Daniel\Desktop\Proyecto domesticas\src\main\java\com\domesticas\domain\model\Group.java
-C:\Users\Daniel\Desktop\Proyecto domesticas\src\main\java\com\domesticas\domain\model\Task.java
-C:\Users\Daniel\Desktop\Proyecto domesticas\src\main\java\com\domesticas\domain\model\User.java
-C:\Users\Daniel\Desktop\Proyecto domesticas\src\main\java\com\domesticas\domain\ports\TaskRepository.java
-C:\Users\Daniel\Desktop\Proyecto domesticas\src\main\java\com\domesticas\domain\ports\UserRepository.java
-C:\Users\Daniel\Desktop\Proyecto domesticas\src\main\java\com\domesticas\infrastructure\adapters\repositories\JpaGroupRepository.java
-C:\Users\Daniel\Desktop\Proyecto domesticas\src\main\java\com\domesticas\infrastructure\adapters\repositories\JpaTaskRepository.java
-C:\Users\Daniel\Desktop\Proyecto domesticas\src\main\java\com\domesticas\infrastructure\adapters\repositories\JpaUserRepository.java
-C:\Users\Daniel\Desktop\Proyecto domesticas\src\main\java\com\domesticas\presentation\adapters\controllers\GroupController.java
-C:\Users\Daniel\Desktop\Proyecto domesticas\src\main\java\com\domesticas\presentation\adapters\controllers\TaskController.java
-C:\Users\Daniel\Desktop\Proyecto domesticas\src\main\java\com\domesticas\presentation\adapters\controllers\UserController.java
-C:\Users\Daniel\Desktop\Proyecto domesticas\src\main\java\com\domesticas\SistemaDomesticasApplication.java
+C:\Users\DELL\Sistema_De_tareas_Domesticas\src\main\java\com\domesticas\application\GroupService.java
+C:\Users\DELL\Sistema_De_tareas_Domesticas\src\main\java\com\domesticas\application\ports\GroupRepository.java
+C:\Users\DELL\Sistema_De_tareas_Domesticas\src\main\java\com\domesticas\application\ports\TaskRepository.java
+C:\Users\DELL\Sistema_De_tareas_Domesticas\src\main\java\com\domesticas\application\ports\UserRepository.java
+C:\Users\DELL\Sistema_De_tareas_Domesticas\src\main\java\com\domesticas\application\TaskService.java
+C:\Users\DELL\Sistema_De_tareas_Domesticas\src\main\java\com\domesticas\application\UserService.java
+C:\Users\DELL\Sistema_De_tareas_Domesticas\src\main\java\com\domesticas\domain\model\Group.java
+C:\Users\DELL\Sistema_De_tareas_Domesticas\src\main\java\com\domesticas\domain\model\Task.java
+C:\Users\DELL\Sistema_De_tareas_Domesticas\src\main\java\com\domesticas\domain\model\User.java
+C:\Users\DELL\Sistema_De_tareas_Domesticas\src\main\java\com\domesticas\domain\ports\TaskRepository.java
+C:\Users\DELL\Sistema_De_tareas_Domesticas\src\main\java\com\domesticas\infrastructure\adapters\repositories\JpaGroupRepository.java
+C:\Users\DELL\Sistema_De_tareas_Domesticas\src\main\java\com\domesticas\infrastructure\adapters\repositories\JpaTaskRepository.java
+C:\Users\DELL\Sistema_De_tareas_Domesticas\src\main\java\com\domesticas\infrastructure\adapters\repositories\JpaUserRepository.java
+C:\Users\DELL\Sistema_De_tareas_Domesticas\src\main\java\com\domesticas\presentation\adapters\controllers\GroupController.java
+C:\Users\DELL\Sistema_De_tareas_Domesticas\src\main\java\com\domesticas\presentation\adapters\controllers\TaskController.java
+C:\Users\DELL\Sistema_De_tareas_Domesticas\src\main\java\com\domesticas\presentation\adapters\controllers\UserController.java
+C:\Users\DELL\Sistema_De_tareas_Domesticas\src\main\java\com\domesticas\SistemaDomesticasApplication.java

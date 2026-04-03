@@ -25,11 +25,23 @@ public class TaskController {
                 request.title,
                 request.description,
                 request.priority,
+                request.difficulty,
                 request.dueDate,
                 request.assignedToId,
                 request.groupId
         );
         return ResponseEntity.ok(task);
+    }
+
+    @PostMapping("/group/{groupId}/assign-weekly")
+    public ResponseEntity<TaskService.WeeklyAssignmentResult> assignWeeklyTasks(@PathVariable Long groupId) {
+        TaskService.WeeklyAssignmentResult result = taskService.assignWeeklyTasks(groupId);
+
+        if (!result.isSuccess()) {
+            return ResponseEntity.badRequest().body(result);
+        }
+
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{id}")
@@ -71,9 +83,12 @@ public class TaskController {
         public String title;
         public String description;
         public Task.Priority priority;
+        public Task.Difficulty difficulty;
+
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
         public LocalDateTime dueDate;
-        public Long assignedToId;
+
+        public Long assignedToId; // opcional
         public Long groupId;
     }
 
