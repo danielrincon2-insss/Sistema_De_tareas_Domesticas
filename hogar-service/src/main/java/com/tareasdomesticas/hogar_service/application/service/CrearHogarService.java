@@ -20,7 +20,7 @@ public class CrearHogarService implements CrearHogarUseCase {
         }
         try {
             Hogar hogar = new Hogar(
-                    generarId(),
+                    null, 
                     nombre,
                     descripcion,
                     usuario);
@@ -32,9 +32,5 @@ public class CrearHogarService implements CrearHogarUseCase {
             throw e;
         }
 
-    }
-
-    private Integer generarId() {
-        return (int) (Math.random() * 10000);
     }
 }

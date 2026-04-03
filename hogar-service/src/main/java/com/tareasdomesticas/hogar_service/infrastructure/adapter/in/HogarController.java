@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tareasdomesticas.hogar_service.domain.model.Usuario;
 import com.tareasdomesticas.hogar_service.domain.port.in.CrearHogarUseCase;
 import com.tareasdomesticas.hogar_service.infrastructure.adapter.in.DTO.CrearHogarRequest;
+import com.tareasdomesticas.hogar_service.infrastructure.adapter.out.JpaUsuarioRepository;
 
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -14,23 +15,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/api/hogares")
 public class HogarController {
     private final CrearHogarUseCase crearHogarUseCase;
+    private final JpaUsuarioRepository usuarioRepository;
 
-    public HogarController(CrearHogarUseCase crearHogarUseCase) {
+    public HogarController(CrearHogarUseCase crearHogarUseCase, JpaUsuarioRepository usuarioRepository) {
         this.crearHogarUseCase = crearHogarUseCase;
+        this.usuarioRepository = usuarioRepository;
     }
 
     @PostMapping
     public String crearHogar(@RequestBody CrearHogarRequest request) {
-        System.out.println(request.getNombreHogar());
         Usuario usuario = new Usuario(
-                request.getUsuarioId(),
+                null,
                 request.getNombreUsuario(),
                 request.getCorreoUsuario());
+
+        Usuario usuarioGuardado = usuarioRepository.save(usuario);
 
         crearHogarUseCase.crearHogar(
                 request.getNombreHogar(),
                 request.getDescripcion(),
-                usuario);
+                usuarioGuardado);
 
         return "Hogar creado exitosamente";
     }

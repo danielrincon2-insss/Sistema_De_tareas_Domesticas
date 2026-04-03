@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-SistemaDomesticasApplication<sistema-domesticas>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.domesticas.SistemaDomesticasApplication",
+            "projectName": "sistema-domesticas",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
