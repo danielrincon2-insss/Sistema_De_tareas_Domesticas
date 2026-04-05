@@ -57,13 +57,13 @@ El proyecto sigue los principios de **Hexagonal Architecture**, separando las pr
 - `DELETE /api/hogares/{id}` - Eliminar grupo
 
 ### Tareas
-- `POST /api/tasks` - Crear tarea
-- `GET /api/tasks/{id}` - Obtener tarea por ID
-- `GET /api/tasks/group/{groupId}` - Obtener tareas por grupo
-- `GET /api/tasks/user/{userId}` - Obtener tareas por usuario
-- `PUT /api/tasks/{id}` - Actualizar tarea
-- `PATCH /api/tasks/{id}/status` - Actualizar estado de tarea
-- `DELETE /api/tasks/{id}` - Eliminar tarea
+- `POST /api/tareas` - Crear tarea
+- `GET /api/tareas/{id}` - Obtener tarea por ID
+- `GET /api/tareasgroup/{groupId}` - Obtener tareas por grupo
+- `GET /api/tareas/user/{userId}` - Obtener tareas por usuario
+- `PUT /api/tareas/{id}` - Actualizar tarea
+- `PATCH /api/tareas/{id}/status` - Actualizar estado de tarea
+- `DELETE /api/tareas/{id}` - Eliminar tarea
 
 ## Estructura del Proyecto
 
