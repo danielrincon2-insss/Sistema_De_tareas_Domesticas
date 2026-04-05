@@ -106,6 +106,9 @@ src/
             │   ├── domain
             │   │   ├── model
             │   │   │   └── Tarea.java
+            |   |   |   ├── DificultadTarea.java
+            |   |   |   ├── PrioridadTarea.java
+            |   |   |   └── EstadoTarea.java
             │   │   └── port
             │   │       └── out
             │   │           └── TareaRepository.java
