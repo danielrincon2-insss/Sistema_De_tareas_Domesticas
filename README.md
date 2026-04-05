@@ -64,6 +64,7 @@ El proyecto sigue los principios de **Hexagonal Architecture**, separando las pr
 - `PUT /api/tareas/{id}` - Actualizar tarea
 - `PATCH /api/tareas/{id}/status` - Actualizar estado de tarea
 - `DELETE /api/tareas/{id}` - Eliminar tarea
+- `POST /api/tareas/asignar` - Asignar tareas
 
 ## Estructura del Proyecto
 
