@@ -72,51 +72,62 @@ src/
 └── main/
     └── java/
         └── com/tareasdomesticas/
-            ├── hogar_service/
+            ├── hogar-service/
             │
             ├── HogarServiceApplication.java
             │
-            ├── domain/
-            │   ├── model/
-            │   │   ├── Usuario.java
-            │   │   ├── Hogar.java
-            │   │   ├── Tarea.java
-            │   │   └── RolUsuario.java
-            │   │
-            │   └── port/
-            │       ├── in/
-            │       │   ├── CrearHogarUseCase.java
-            │       │   ├── CrearTareaUseCase.java
-            │       │   └── AsignarTareasUseCase.java
-            │       │
-            │       └── out/
-            │           ├── HogarRepository.java
-            │           ├── UsuarioRepository.java
-            │           └── TareaRepository.java
+            ├── common
+            │   └── domain
+            │       └── model
+            │           ├── Usuario.java
+            │           └── RolUsuario.java
+            ├── hogares
+            │   ├── domain
+            │   │   ├── model
+            │   │   │   └── Hogar.java
+            │   │   └── port
+            │   │       └── out
+            │   │           └── HogarRepository.java
+            │   
+            │   ├── application
+            │   │   ├── port
+            │   │   │   └── in
+            │   │   │       └── CrearHogarUseCase.java   
+            │   │   └── service
+            │   │       └── CrearHogarService.java
             │
-            ├── application/
-            │   └── service/
-            │       ├── CrearHogarService.java
-            │       ├── CrearTareaService.java
-            │       └── AsignarTareasService.java
+            │   └── infrastructure
+            │       └── adapter
+            │           ├── in
+            │           │   └── HogarController.java
+            │           └── out
+            │               └── InMemoryHogarRepository.java            
+            ├── tareas
+            │   ├── domain
+            │   │   ├── model
+            │   │   │   └── Tarea.java
+            │   │   └── port
+            │   │       └── out
+            │   │           └── TareaRepository.java
             │
-            ├── infrastructure/
-            │   └── adapter/
-            │       ├── in/
-            │       │   ├── HogarController.java
-            │       │   ├── TareaController.java
-            │       │   └── dto/
-            │       │       ├── CrearHogarRequest.java
-            │       │       ├── CrearTareaRequest.java
-            │       │       └── AsignarTareasRequest.java
-            │       │
-            │       └── out/
-            │           ├── InMemoryHogarRepository.java
-            │           ├── InMemoryUsuarioRepository.java
-            │           └── InMemoryTareaRepository.java
+            │   ├── application
+            │   │   ├── port
+            │   │   │   └── in
+            │   │   │       ├── CrearTareaUseCase.java      
+            │   │   │       └── AsignarTareaUseCase.java    
+            │   │   └── service
+            │   │       ├── CrearTareaService.java
+            │   │       └── AsignarTareaService.java
             │
-            └── resources/
-                └── application.properties
+            │   └── infrastructure
+            │       └── adapter
+            │           ├── in
+            │           │   └── TareaController.java
+            │           └── out
+            │               └── InMemoryTareaRepository.java  
+            └── config
+            └── BeanConfig.java
+
 ```
 
 ## Próximos Pasos
