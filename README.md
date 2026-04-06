@@ -71,8 +71,7 @@ El proyecto sigue los principios de **Hexagonal Architecture**, separando las pr
 ```
 src/
 └── main/
-    └── java/
-        └── com/tareasdomesticas/
+    └── java/com/tareasdomesticas/
             ├── hogar-service/
             │
             ├── HogarServiceApplication.java
