@@ -71,8 +71,7 @@ El proyecto sigue los principios de **Hexagonal Architecture**, separando las pr
 ```
 src/
 └── main/
-    └── java/
-        └── com/tareasdomesticas/
+    └── java/com/tareasdomesticas/
             ├── hogar-service/
             │
             ├── HogarServiceApplication.java
@@ -100,6 +99,9 @@ src/
             │   └── infrastructure
             │       └── adapter
             │           ├── in
+            |           |   └── DTO
+            |           |   |    └── CrearHogarRequest.java
+            |           |   |    └── CrearHogarResponse.java
             │           │   └── HogarController.java
             │           └── out
             │               └── InMemoryHogarRepository.java            
@@ -126,6 +128,9 @@ src/
             │   └── infrastructure
             │       └── adapter
             │           ├── in
+            |           |   └── DTO
+            |           |   |    └── CrearTareaRequest.java
+            |           |   |    └── CrearTareaResponse.java
             │           │   └── TareaController.java
             │           └── out
             │               └── InMemoryTareaRepository.java  
