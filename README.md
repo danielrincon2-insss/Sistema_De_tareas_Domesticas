@@ -99,6 +99,9 @@ src/
             │   └── infrastructure
             │       └── adapter
             │           ├── in
+            |           |   └── DTO
+            |           |   |    └── CrearHogarRequest.java
+            |           |   |    └── CrearHogarResponse.java
             │           │   └── HogarController.java
             │           └── out
             │               └── InMemoryHogarRepository.java            
@@ -125,6 +128,9 @@ src/
             │   └── infrastructure
             │       └── adapter
             │           ├── in
+            |           |   └── DTO
+            |           |   |    └── CrearTareaRequest.java
+            |           |   |    └── CrearTareaResponse.java
             │           │   └── TareaController.java
             │           └── out
             │               └── InMemoryTareaRepository.java  
