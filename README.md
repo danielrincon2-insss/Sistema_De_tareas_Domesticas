@@ -17,7 +17,11 @@ Esta aplicación permite organizar y distribuir tareas domésticas en hogares co
 
 ## Arquitectura
 
-El proyecto sigue los principios de **Hexagonal Architecture**, separando las preocupaciones en capas claramente definidas:
+El estilo arquitectónico estructural definido para el proyecto Sistema de Organización de Tareas Domésticas es la Arquitectura Hexagonal. Esta elección se justifica porque el sistema posee una lógica de negocio central claramente identificable, la cual debe mantenerse desacoplada de la interfaz, de la persistencia y de otros mecanismos técnicos. 
+
+Esto hace que la Arquitectura Hexagonal sea adecuada porque organiza el sistema alrededor de un núcleo de dominio, donde residen las reglas esenciales del negocio, y lo conecta con el exterior mediante puertos y adaptadores. En este proyecto, el dominio está representado por entidades como Usuario, Hogar, Tarea y Asignación, así como por reglas funcionales como validar si un usuario pertenece a un hogar, permitir la creación del hogar, registrar tareas con estado inicial pendiente, ejecutar una asignación semanal equilibrada, mantener tareas excedentes en pendiente y conservar el historial del proceso etc. Estas reglas expresan el verdadero valor del sistema y, por tanto, deben ubicarse en el centro de la arquitectura.
+
+Desde esta perspectiva, la arquitectura se organiza en cuatro partes:
 
 - **Domain**: Entidades de negocio, reglas de negocio y interfaces de repositorio
 - **Application**: Casos de uso y servicios de aplicación
