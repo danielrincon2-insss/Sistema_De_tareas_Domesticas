@@ -15,18 +15,72 @@ Esta aplicación permite organizar y distribuir tareas domésticas en hogares co
 - **Historial de cumplimiento por usuario**
 - **Reportes sobre distribución de responsabilidades**
 
-## Arquitectura
+## Justificación de la Arquitectura Hexagonal aplicada al Sistema de Organización de Tareas Domésticas
 
-El estilo arquitectónico estructural definido para el proyecto Sistema de Organización de Tareas Domésticas es la Arquitectura Hexagonal. Esta elección se justifica porque el sistema posee una lógica de negocio central claramente identificable, la cual debe mantenerse desacoplada de la interfaz, de la persistencia y de otros mecanismos técnicos. 
+El estilo arquitectónico seleccionado para este sistema es la Arquitectura Hexagonal (Ports and Adapters). Esta elección responde directamente a las necesidades del dominio: un sistema colaborativo de gestión de tareas domésticas con reglas de negocio bien definidas, que deben mantenerse completamente aisladas de los detalles técnicos como la persistencia de datos o la interfaz de comunicación.
 
-Esto hace que la Arquitectura Hexagonal sea adecuada porque organiza el sistema alrededor de un núcleo de dominio, donde residen las reglas esenciales del negocio, y lo conecta con el exterior mediante puertos y adaptadores. En este proyecto, el dominio está representado por entidades como Usuario, Hogar, Tarea y Asignación, así como por reglas funcionales como validar si un usuario pertenece a un hogar, permitir la creación del hogar, registrar tareas con estado inicial pendiente, ejecutar una asignación semanal equilibrada, mantener tareas excedentes en pendiente y conservar el historial del proceso etc. Estas reglas expresan el verdadero valor del sistema y, por tanto, deben ubicarse en el centro de la arquitectura.
+Desde esta perspectiva, la arquitectura se organiza de la siguiente manera:
 
-Desde esta perspectiva, la arquitectura se organiza en cuatro partes:
+### Núcleo del dominio
 
-- **Domain**: Entidades de negocio, reglas de negocio y interfaces de repositorio
-- **Application**: Casos de uso y servicios de aplicación
-- **Infrastructure**: Implementaciones de repositorio y adaptadores externos
-- **Presentation**: Controladores REST y DTOs
+El centro del sistema está compuesto por las entidades Hogar, Tarea y Usuario, ubicadas en el paquete domain/model, junto con los enums DificultadTarea, PrioridadTarea y EstadoTarea. Estas clases no dependen de ningún framework externo; no tienen anotaciones de Spring ni de JPA.
+
+Las reglas de negocio están encapsuladas directamente en ellas:
+
+* Hogar valida que su nombre tenga entre 3 y 50 caracteres y asigna automáticamente un administrador al crearse.
+* Tarea valida que la fecha límite no sea anterior al momento actual y controla su propio ciclo de estados mediante métodos como asignarA(), esPendiente() y marcarComoExcedente().
+
+### Puertos de entrada
+
+Los casos de uso CrearHogarUseCase, CrearTareaUseCase y AsignarTareaUseCase son interfaces ubicadas en application/port/in/, que definen exactamente qué puede hacer el sistema desde el exterior.
+
+Ningún controlador accede directamente a una implementación concreta; siempre lo hace a través de estas interfaces. Esto permite que la lógica de negocio sea independiente del mecanismo de entrada y fácilmente reemplazable.
+
+### Puertos de salida
+
+HogarRepository y TareaRepository son interfaces ubicadas en domain/port/out/, que definen cómo el dominio necesita persistir sus datos, sin conocer cómo se implementa dicha persistencia.
+
+Actualmente, las implementaciones son en memoria (InMemoryHogarRepository, InMemoryTareaRepository), pero en el Sprint 2 se reemplazarán por implementaciones con JPA sin modificar una sola línea del dominio ni de los servicios de aplicación.
+
+### Capa de aplicación
+
+Los servicios CrearHogarService, CrearTareaService y AsignarTareaService coordinan la lógica de dominio.
+
+Por ejemplo, AsignarTareaService implementa:
+
+* La distribución equilibrada de tareas según el peso de dificultad (ALTA = 3, MEDIA = 2, BAJA = 1).
+* La priorización de tareas excedentes del ciclo anterior.
+* El bloqueo semanal de reasignación.
+
+Todo esto se realiza sin conocer si los datos provienen de una base de datos, una API externa o memoria.
+
+Los DTOs de respuesta (AsignacionSemanalResponse, TareaAsignadaDTO, TareaExcedenteDTO, TareaListadoDTO) también pertenecen a esta capa, ya que representan el contrato de salida del sistema y no detalles de infraestructura.
+
+### Adaptadores de entrada
+
+HogarController y TareaController son adaptadores REST ubicados en infrastructure/adapter/in/.
+
+Se encargan de:
+
+* Recibir peticiones HTTP.
+* Construir los objetos necesarios del dominio.
+* Delegar la ejecución al caso de uso correspondiente.
+
+Los DTOs de entrada (CrearHogarRequest, CrearTareaRequest) traducen el formato JSON al lenguaje del dominio. Ningún controlador contiene lógica de negocio.
+
+### Adaptadores de salida
+
+InMemoryHogarRepository e InMemoryTareaRepository implementan los puertos de salida del dominio.
+
+### Configuración 
+
+BeanConfig configura la arquitectura, conectando las implementaciones concretas con sus respectivas interfaces, siguiendo el principio de inversión de dependencias.
+
+Ninguna capa interna instancia directamente una implementación concreta de otra capa.
+
+### Beneficios obtenidos
+
+La separación lograda permite que la migración a una base de datos real se limite exclusivamente a crear nuevas implementaciones de HogarRepository y TareaRepository con JPA, sin modificar el dominio, los servicios ni los controladores.
 
 ## Tecnologías Utilizadas
 
