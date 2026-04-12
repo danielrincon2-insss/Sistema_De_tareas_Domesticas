@@ -6,12 +6,12 @@ import com.tareasdomesticas.hogar_service.hogares.application.port.in.CrearHogar
 import com.tareasdomesticas.hogar_service.hogares.domain.port.out.HogarRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.concurrent.atomic.AtomicInteger;
+
 
 public class CrearHogarService implements CrearHogarUseCase {
     private final HogarRepository hogarRepository;
     private static final Logger logger = LoggerFactory.getLogger(CrearHogarService.class);
-    private static final AtomicInteger ID_GENERATOR = new AtomicInteger(0);
+
     public CrearHogarService(HogarRepository hogarRepository) {
         this.hogarRepository = hogarRepository;
     }
@@ -29,7 +29,7 @@ public class CrearHogarService implements CrearHogarUseCase {
 
         try {
             Hogar hogar = new Hogar(
-                    generarId(),
+                    null,
                     nombre,
                     descripcion,
                     usuario);
@@ -42,9 +42,5 @@ public class CrearHogarService implements CrearHogarUseCase {
             throw new RuntimeException("Algo salió mal, inténtelo de nuevo", e);
         }
 
-    }
-
-    private Integer generarId() {
-        return ID_GENERATOR.incrementAndGet();
     }
 }

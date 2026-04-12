@@ -2,6 +2,7 @@ package com.tareasdomesticas.hogar_service.hogares.infrastructure.adapter.out;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.Optional;
 
 import com.tareasdomesticas.hogar_service.common.domain.model.Usuario;
@@ -10,7 +11,7 @@ import com.tareasdomesticas.hogar_service.hogares.domain.port.out.HogarRepositor
 
 public class InMemoryHogarRepository implements HogarRepository {
     private final Map<Integer, Hogar> hogares = new ConcurrentHashMap<>();
-
+    private final AtomicInteger idGenerator = new AtomicInteger(0);
     public InMemoryHogarRepository() {
         cargarDatosDePrueba();
     }
@@ -25,10 +26,20 @@ public class InMemoryHogarRepository implements HogarRepository {
 
     @Override
     public Hogar guardar(Hogar hogar) {
+        if (hogar.getIdHogar() == null) {
+            Hogar hogarConId = new Hogar(
+                idGenerator.incrementAndGet(),
+                hogar.getNombreHogar(),
+                hogar.getDescripcionHogar(),
+                hogar.getAdministrador()
+            );
+            hogares.put(hogarConId.getIdHogar(), hogarConId);
+            return hogarConId;
+        }
         hogares.put(hogar.getIdHogar(), hogar);
         return hogar;
     }
-
+    
     @Override
     public Optional<Hogar> buscarPorUsuarioId(Integer usuarioId) {
         return hogares.values().stream()

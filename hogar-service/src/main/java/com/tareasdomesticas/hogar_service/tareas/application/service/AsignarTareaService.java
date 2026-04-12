@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -16,6 +15,9 @@ import com.tareasdomesticas.hogar_service.tareas.application.port.in.AsignarTare
 import com.tareasdomesticas.hogar_service.tareas.domain.model.DificultadTarea;
 import com.tareasdomesticas.hogar_service.tareas.domain.model.Tarea;
 import com.tareasdomesticas.hogar_service.tareas.domain.port.out.TareaRepository;
+import com.tareasdomesticas.hogar_service.tareas.application.DTO.AsignacionSemanalResponse;
+import com.tareasdomesticas.hogar_service.tareas.application.DTO.TareaAsignadaDTO;
+import com.tareasdomesticas.hogar_service.tareas.application.DTO.TareaExcedenteDTO;
 
 public class AsignarTareaService implements AsignarTareaUseCase {
 
@@ -29,7 +31,7 @@ public class AsignarTareaService implements AsignarTareaUseCase {
     }
 
     @Override
-    public Map<String, Object> asignarTareasSemanales(Long hogarId) {
+    public AsignacionSemanalResponse asignarTareasSemanales(Long hogarId) {
 
         if (ultimaAsignacion != null &&
             ultimaAsignacion.plusDays(7).isAfter(LocalDate.now())) {
@@ -72,41 +74,37 @@ public class AsignarTareaService implements AsignarTareaUseCase {
             cargaPorUsuario.put(u, 0);
         }
 
-        List<Map<String, Object>> asignadas = new ArrayList<>();
+        List<TareaAsignadaDTO> asignadas = new ArrayList<>();
         for (Tarea tarea : tareasAAsignar) {
             Long usuarioId = obtenerUsuarioMenorCarga(cargaPorUsuario);
             tarea.asignarA(usuarioId);
             int nuevaCarga = cargaPorUsuario.get(usuarioId) + peso(tarea.getDificultad());
             cargaPorUsuario.put(usuarioId, nuevaCarga);
-
-            Map<String, Object> detalle = new LinkedHashMap<>();
-            detalle.put("idTarea", tarea.getIdTarea());
-            detalle.put("nombre", tarea.getNombreTarea());
-            detalle.put("dificultad", tarea.getDificultad());
-            detalle.put("usuarioAsignado", usuarioId);
-            detalle.put("estado", tarea.getEstado());
-            asignadas.add(detalle);
+            asignadas.add(new TareaAsignadaDTO(
+                    tarea.getIdTarea(),
+                    tarea.getNombreTarea(),
+                    tarea.getDificultad(),
+                    usuarioId,
+                    tarea.getEstado()));
         }
 
-        List<Map<String, Object>> excedentes = new ArrayList<>();
+        List<TareaExcedenteDTO> excedentes = new ArrayList<>();
         for (Tarea tarea : tareasExcedentes) {
-            tarea.marcarComoExcedente();   
-            Map<String, Object> detalle = new LinkedHashMap<>();
-            detalle.put("idTarea", tarea.getIdTarea());
-            detalle.put("nombre", tarea.getNombreTarea());
-            detalle.put("dificultad", tarea.getDificultad());
-            detalle.put("estado", tarea.getEstado());
-            excedentes.add(detalle);
+            tarea.marcarComoExcedente();
+            excedentes.add(new TareaExcedenteDTO(
+                    tarea.getIdTarea(),
+                    tarea.getNombreTarea(),
+                    tarea.getDificultad(),
+                    tarea.getEstado()));
         }
 
         ultimaAsignacion = LocalDate.now();
 
-        Map<String, Object> resultado = new LinkedHashMap<>();
-        resultado.put("mensaje", "Tareas asignadas correctamente");
-        resultado.put("hogarId", hogarId);
-        resultado.put("tareasAsignadas", asignadas);
-        resultado.put("tareasExcedentes", excedentes);
-        return resultado;
+        return new AsignacionSemanalResponse(
+                "Tareas asignadas correctamente",
+                hogarId,
+                asignadas,
+                excedentes);
     }
 
     private int peso(DificultadTarea d) {
@@ -114,6 +112,7 @@ public class AsignarTareaService implements AsignarTareaUseCase {
             case ALTA -> 3;
             case MEDIA -> 2;
             case BAJA -> 1;
+            default -> throw new IllegalArgumentException("Dificultad no reconocida: " + d);
         };
     }
 

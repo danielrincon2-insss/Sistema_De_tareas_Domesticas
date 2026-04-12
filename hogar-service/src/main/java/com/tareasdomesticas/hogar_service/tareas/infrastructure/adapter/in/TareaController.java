@@ -15,6 +15,8 @@ import com.tareasdomesticas.hogar_service.tareas.application.port.in.CrearTareaU
 import com.tareasdomesticas.hogar_service.tareas.application.port.in.AsignarTareaUseCase;
 import com.tareasdomesticas.hogar_service.tareas.domain.model.Tarea;
 import com.tareasdomesticas.hogar_service.tareas.infrastructure.adapter.in.DTO.CrearTareaResponse;
+import com.tareasdomesticas.hogar_service.tareas.application.DTO.TareaListadoDTO;
+import com.tareasdomesticas.hogar_service.tareas.application.DTO.AsignacionSemanalResponse;
 
 import jakarta.validation.Valid;
 
@@ -67,22 +69,18 @@ public class TareaController {
 
     @GetMapping
     public ResponseEntity<?> listarTodasLasTareas() {
-        List<Map<String, Object>> resultado = tareaRepository.listar()
+        List<TareaListadoDTO> resultado = tareaRepository.listar()
                 .stream()
-                .map(t -> {
-                    Map<String, Object> item = new java.util.LinkedHashMap<>();
-                    item.put("idTarea", t.getIdTarea());
-                    item.put("idHogar", t.getIdHogar());
-                    item.put("nombre", t.getNombreTarea());
-                    item.put("dificultad", t.getDificultad());
-                    item.put("prioridad", t.getPrioridad());
-                    item.put("estado", t.getEstado());
-                    item.put("usuarioAsignado", t.getIdUsuarioAsignado() != null
-                            ? t.getIdUsuarioAsignado()
-                            : "Sin asignar");
-                    item.put("fechaLimite", t.getFechaLimite());
-                    return item;
-                })
+                .map(t -> new TareaListadoDTO(
+                        t.getIdTarea(),
+                        t.getIdHogar(),
+                        t.getNombreTarea(),
+                        t.getDificultad(),
+                        t.getPrioridad(),
+                        t.getEstado(),
+                        t.getIdUsuarioAsignado() != null ? t.getIdUsuarioAsignado() : "Sin asignar",
+                        t.getFechaLimite()
+                ))
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(resultado);
@@ -90,21 +88,18 @@ public class TareaController {
 
     @GetMapping("/hogares/{hogarId}")
     public ResponseEntity<?> listarTareasPorHogar(@PathVariable Long hogarId) {
-        List<Map<String, Object>> resultado = tareaRepository.listarPorHogar(hogarId)
+        List<TareaListadoDTO> resultado = tareaRepository.listarPorHogar(hogarId)
                 .stream()
-                .map(t -> {
-                    Map<String, Object> item = new java.util.LinkedHashMap<>();
-                    item.put("idTarea", t.getIdTarea());
-                    item.put("nombre", t.getNombreTarea());
-                    item.put("dificultad", t.getDificultad());
-                    item.put("prioridad", t.getPrioridad());
-                    item.put("estado", t.getEstado());
-                    item.put("usuarioAsignado", t.getIdUsuarioAsignado() != null
-                            ? t.getIdUsuarioAsignado()
-                            : "Sin asignar");
-                    item.put("fechaLimite", t.getFechaLimite());
-                    return item;
-                })
+                .map(t -> new TareaListadoDTO(
+                        t.getIdTarea(),
+                        t.getIdHogar(),
+                        t.getNombreTarea(),
+                        t.getDificultad(),
+                        t.getPrioridad(),
+                        t.getEstado(),
+                        t.getIdUsuarioAsignado() != null ? t.getIdUsuarioAsignado() : "Sin asignar",
+                        t.getFechaLimite()
+                ))
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(resultado);
@@ -113,7 +108,7 @@ public class TareaController {
     @PostMapping("/hogares/{hogarId}/asignacion-semanal")
     public ResponseEntity<?> asignarTareas(@PathVariable Long hogarId) {
         try {
-            Map<String, Object> resultado = asignarTareaUseCase.asignarTareasSemanales(hogarId);
+            AsignacionSemanalResponse resultado = asignarTareaUseCase.asignarTareasSemanales(hogarId);
             return ResponseEntity.ok(resultado);
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
