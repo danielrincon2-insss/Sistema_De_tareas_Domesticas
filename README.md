@@ -121,6 +121,11 @@ src/
             │   │           └── TareaRepository.java
             │
             │   ├── application
+            │   │   ├── DTO
+            |   |   |   ├── AsignacionSemanalResponse.java    
+            │   │   │   └── TareaAsignadaDTO.java
+            |   |   |   └── TareaExcedenteDTO.java
+            |   |   |   └── TarealistadoDTO.java
             │   │   ├── port
             │   │   │   └── in
             │   │   │       ├── CrearTareaUseCase.java      
