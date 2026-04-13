@@ -157,7 +157,7 @@ src/
             │   └── infrastructure
             │       └── adapter
             │           ├── in
-            |           |   └── DTO
+            |           |   └── dto
             |           |   |    └── CrearHogarRequest.java
             |           |   |    └── CrearHogarResponse.java
             │           │   └── HogarController.java
@@ -175,7 +175,7 @@ src/
             │   │           └── TareaRepository.java
             │
             │   ├── application
-            │   │   ├── DTO
+            │   │   ├── dto
             |   |   |   ├── AsignacionSemanalResponse.java    
             │   │   │   └── TareaAsignadaDTO.java
             |   |   |   └── TareaExcedenteDTO.java
@@ -191,7 +191,7 @@ src/
             │   └── infrastructure
             │       └── adapter
             │           ├── in
-            |           |   └── DTO
+            |           |   └── dto
             |           |   |    └── CrearTareaRequest.java
             |           |   |    └── CrearTareaResponse.java
             │           │   └── TareaController.java
