@@ -23,28 +23,28 @@ Desde esta perspectiva, la arquitectura se organiza de la siguiente manera:
 
 ### Núcleo del dominio
 
-El centro del sistema está compuesto por las entidades Hogar, Tarea y Usuario, ubicadas en el paquete domain/model, junto con los enums DificultadTarea, PrioridadTarea y EstadoTarea. Estas clases no dependen de ningún framework externo; no tienen anotaciones de Spring ni de JPA.
+El centro del sistema está compuesto por las entidades *Hogar*, *Tarea* y *Usuario*, ubicadas en el paquete *domain/model*, junto con los enums *DificultadTarea*, *PrioridadTarea* y *EstadoTarea*. Estas clases no dependen de ningún framework externo; no tienen anotaciones de Spring ni de JPA.
 
 Las reglas de negocio están encapsuladas directamente en ellas:
 
 * Hogar valida que su nombre tenga entre 3 y 50 caracteres y asigna automáticamente un administrador al crearse.
-* Tarea valida que la fecha límite no sea anterior al momento actual y controla su propio ciclo de estados mediante métodos como asignarA(), esPendiente() y marcarComoExcedente().
+* Tarea valida que la fecha límite no sea anterior al momento actual y controla su propio ciclo de estados mediante métodos como *asignarA()*, *esPendiente()* y *marcarComoExcedente()*.
 
 ### Puertos de entrada
 
-Los casos de uso CrearHogarUseCase, CrearTareaUseCase y AsignarTareaUseCase son interfaces ubicadas en application/port/in/, que definen exactamente qué puede hacer el sistema desde el exterior.
+Los casos de uso *CrearHogarUseCase*, *CrearTareaUseCase* y *AsignarTareaUseCase* son interfaces ubicadas en *application/port/in/*, que definen exactamente qué puede hacer el sistema desde el exterior.
 
 Ningún controlador accede directamente a una implementación concreta; siempre lo hace a través de estas interfaces. Esto permite que la lógica de negocio sea independiente del mecanismo de entrada y fácilmente reemplazable.
 
 ### Puertos de salida
 
-HogarRepository y TareaRepository son interfaces ubicadas en domain/port/out/, que definen cómo el dominio necesita persistir sus datos, sin conocer cómo se implementa dicha persistencia.
+*HogarRepository* y *TareaRepository* son interfaces ubicadas en *domain/port/out/*, que definen cómo el dominio necesita persistir sus datos, sin conocer cómo se implementa dicha persistencia.
 
-Actualmente, las implementaciones son en memoria (InMemoryHogarRepository, InMemoryTareaRepository), pero en el Sprint 2 se reemplazarán por implementaciones con JPA sin modificar una sola línea del dominio ni de los servicios de aplicación.
+Actualmente, las implementaciones son en memoria (*InMemoryHogarRepository*, *InMemoryTareaRepository*), pero en el Sprint 2 se reemplazarán por implementaciones con JPA sin modificar una sola línea del dominio ni de los servicios de aplicación.
 
 ### Capa de aplicación
 
-Los servicios CrearHogarService, CrearTareaService y AsignarTareaService coordinan la lógica de dominio.
+Los servicios *CrearHogarService*, *CrearTareaService* y *AsignarTareaService* coordinan la lógica de dominio.
 
 Por ejemplo, AsignarTareaService implementa:
 
@@ -54,11 +54,11 @@ Por ejemplo, AsignarTareaService implementa:
 
 Todo esto se realiza sin conocer si los datos provienen de una base de datos, una API externa o memoria.
 
-Los DTOs de respuesta (AsignacionSemanalResponse, TareaAsignadaDTO, TareaExcedenteDTO, TareaListadoDTO) también pertenecen a esta capa, ya que representan el contrato de salida del sistema y no detalles de infraestructura.
+Los DTOs de respuesta (*AsignacionSemanalResponse*, *TareaAsignadaDTO*, *TareaExcedenteDTO*, *TareaListadoDTO*) también pertenecen a esta capa, ya que representan la información que el sistema devuelve al ejecutar un caso de uso. Definen qué datos se entregan al exterior sin depender de cómo se envían ni de tecnologías específicas.
 
 ### Adaptadores de entrada
 
-HogarController y TareaController son adaptadores REST ubicados en infrastructure/adapter/in/.
+*HogarController* y *TareaController* son adaptadores REST ubicados en *infrastructure/adapter/in/*.
 
 Se encargan de:
 
@@ -66,19 +66,18 @@ Se encargan de:
 * Construir los objetos necesarios del dominio.
 * Delegar la ejecución al caso de uso correspondiente.
 
-Los DTOs de entrada (CrearHogarRequest, CrearTareaRequest) traducen el formato JSON al lenguaje del dominio. Ningún controlador contiene lógica de negocio.
+Los DTOs de entrada (*CrearHogarRequest*, *CrearTareaRequest*) traducen el formato JSON al lenguaje del dominio. Ningún controlador contiene lógica de negocio.
 
 ### Adaptadores de salida
 
-InMemoryHogarRepository e InMemoryTareaRepository implementan los puertos de salida del dominio.
+*InMemoryHogarRepository* e *InMemoryTareaRepository* implementan los puertos de salida del dominio.
 
 ### Configuración 
 
-BeanConfig configura la arquitectura, conectando las implementaciones concretas con sus respectivas interfaces, siguiendo el principio de inversión de dependencias.
+*BeanConfig* configura la arquitectura, conectando las implementaciones concretas con sus respectivas interfaces, siguiendo el principio de inversión de dependencias.
 
 Ninguna capa interna instancia directamente una implementación concreta de otra capa.
 
-La separación lograda permite que la migración a una base de datos real se limite exclusivamente a crear nuevas implementaciones de HogarRepository y TareaRepository con JPA, sin modificar el dominio, los servicios ni los controladores.
 
 ## Tecnologías Utilizadas
 
