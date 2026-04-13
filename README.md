@@ -78,8 +78,6 @@ BeanConfig configura la arquitectura, conectando las implementaciones concretas 
 
 Ninguna capa interna instancia directamente una implementación concreta de otra capa.
 
-### Beneficios obtenidos
-
 La separación lograda permite que la migración a una base de datos real se limite exclusivamente a crear nuevas implementaciones de HogarRepository y TareaRepository con JPA, sin modificar el dominio, los servicios ni los controladores.
 
 ## Tecnologías Utilizadas
