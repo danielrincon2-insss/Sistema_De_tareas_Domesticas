@@ -17,7 +17,7 @@ Esta aplicación permite organizar y distribuir tareas domésticas en hogares co
 
 ## Justificación de la Arquitectura Hexagonal aplicada al Sistema de Organización de Tareas Domésticas
 
-El estilo arquitectónico seleccionado para este sistema es la Arquitectura Hexagonal (Ports and Adapters). Esta elección responde directamente a las necesidades del dominio: un sistema colaborativo de gestión de tareas domésticas con reglas de negocio bien definidas, que deben mantenerse completamente aisladas de los detalles técnicos como la persistencia de datos o la interfaz de comunicación.
+El estilo arquitectónico seleccionado para este sistema es la Arquitectura Hexagonal (Ports & Adapters). Esta elección responde directamente a las necesidades del dominio: un sistema colaborativo de gestión de tareas domésticas con reglas de negocio bien definidas, que deben mantenerse completamente aisladas de los detalles técnicos como la persistencia de datos o la interfaz de comunicación.
 
 Desde esta perspectiva, la arquitectura se organiza de la siguiente manera:
 
