@@ -180,10 +180,12 @@ src/
             │   │   ├── port
             │   │   │   └── in
             │   │   │       ├── CrearTareaUseCase.java      
-            │   │   │       └── AsignarTareaUseCase.java    
+            │   │   │       └── AsignarTareaUseCase.java
+            │   │   │       └── ListarTareasUseCase.java
             │   │   └── service
             │   │       ├── CrearTareaService.java
             │   │       └── AsignarTareaService.java
+            │   │       └── ListarTareasService.java
             │
             │   └── infrastructure
             │       └── adapter
