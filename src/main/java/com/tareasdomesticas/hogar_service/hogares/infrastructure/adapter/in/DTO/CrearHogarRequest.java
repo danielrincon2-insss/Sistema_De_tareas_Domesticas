@@ -1,4 +1,4 @@
-package com.tareasdomesticas.hogar_service.hogares.infrastructure.adapter.in.DTO;
+package com.tareasdomesticas.hogar_service.hogares.infrastructure.adapter.in.dto;
 
 public class CrearHogarRequest {
 
