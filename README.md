@@ -177,6 +177,7 @@ src/
             │   │   │   └── TareaAsignadaDTO.java
             |   |   |   └── TareaExcedenteDTO.java
             |   |   |   └── TarealistadoDTO.java
+            |   |   |   └── UsuarioAsignadoDTO.java
             │   │   ├── port
             │   │   │   └── in
             │   │   │       ├── CrearTareaUseCase.java      
