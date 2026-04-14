@@ -1,8 +1,6 @@
 package com.tareasdomesticas.hogar_service.tareas.infrastructure.adapter.in;
 
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,14 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tareasdomesticas.hogar_service.tareas.application.port.in.CrearTareaUseCase;
 import com.tareasdomesticas.hogar_service.tareas.application.port.in.AsignarTareaUseCase;
+import com.tareasdomesticas.hogar_service.tareas.infrastructure.adapter.in.dto.CrearTareaResponse;
+import com.tareasdomesticas.hogar_service.tareas.application.dto.AsignacionSemanalResponse;
+import com.tareasdomesticas.hogar_service.tareas.application.port.in.ListarTareasUseCase;
 import com.tareasdomesticas.hogar_service.tareas.domain.model.Tarea;
-import com.tareasdomesticas.hogar_service.tareas.infrastructure.adapter.in.DTO.CrearTareaResponse;
-import com.tareasdomesticas.hogar_service.tareas.application.DTO.TareaListadoDTO;
-import com.tareasdomesticas.hogar_service.tareas.application.DTO.AsignacionSemanalResponse;
 
 import jakarta.validation.Valid;
 
-import com.tareasdomesticas.hogar_service.tareas.infrastructure.adapter.in.DTO.CrearTareaRequest;
+import com.tareasdomesticas.hogar_service.tareas.infrastructure.adapter.in.dto.CrearTareaRequest;
 
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -29,14 +27,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class TareaController {
     private final CrearTareaUseCase crearTareaUseCase;
     private final AsignarTareaUseCase asignarTareaUseCase;
-    private final com.tareasdomesticas.hogar_service.tareas.domain.port.out.TareaRepository tareaRepository;
+    private final ListarTareasUseCase listarTareasUseCase;
 
     public TareaController(CrearTareaUseCase crearTareaUseCase,
-            AsignarTareaUseCase asignarTareaUseCase,
-            com.tareasdomesticas.hogar_service.tareas.domain.port.out.TareaRepository tareaRepository) {
-        this.crearTareaUseCase = crearTareaUseCase;
-        this.asignarTareaUseCase = asignarTareaUseCase;
-        this.tareaRepository = tareaRepository;
+        AsignarTareaUseCase asignarTareaUseCase,
+        ListarTareasUseCase listarTareasUseCase) {
+            this.crearTareaUseCase = crearTareaUseCase;
+            this.asignarTareaUseCase = asignarTareaUseCase;
+            this.listarTareasUseCase = listarTareasUseCase;
     }
 
     @PostMapping
@@ -69,40 +67,12 @@ public class TareaController {
 
     @GetMapping
     public ResponseEntity<?> listarTodasLasTareas() {
-        List<TareaListadoDTO> resultado = tareaRepository.listar()
-                .stream()
-                .map(t -> new TareaListadoDTO(
-                        t.getIdTarea(),
-                        t.getIdHogar(),
-                        t.getNombreTarea(),
-                        t.getDificultad(),
-                        t.getPrioridad(),
-                        t.getEstado(),
-                        t.getIdUsuarioAsignado() != null ? t.getIdUsuarioAsignado() : "Sin asignar",
-                        t.getFechaLimite()
-                ))
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(resultado);
+        return ResponseEntity.ok(listarTareasUseCase.listarTodas());
     }
 
     @GetMapping("/hogares/{hogarId}")
     public ResponseEntity<?> listarTareasPorHogar(@PathVariable Long hogarId) {
-        List<TareaListadoDTO> resultado = tareaRepository.listarPorHogar(hogarId)
-                .stream()
-                .map(t -> new TareaListadoDTO(
-                        t.getIdTarea(),
-                        t.getIdHogar(),
-                        t.getNombreTarea(),
-                        t.getDificultad(),
-                        t.getPrioridad(),
-                        t.getEstado(),
-                        t.getIdUsuarioAsignado() != null ? t.getIdUsuarioAsignado() : "Sin asignar",
-                        t.getFechaLimite()
-                ))
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(resultado);
+        return ResponseEntity.ok(listarTareasUseCase.listarPorHogar(hogarId));
     }
 
     @PostMapping("/hogares/{hogarId}/asignacion-semanal")

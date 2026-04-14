@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tareasdomesticas.hogar_service.common.domain.model.Usuario;
 import com.tareasdomesticas.hogar_service.hogares.application.port.in.CrearHogarUseCase;
 import com.tareasdomesticas.hogar_service.hogares.domain.model.Hogar;
-import com.tareasdomesticas.hogar_service.hogares.infrastructure.adapter.in.DTO.CrearHogarRequest;
+import com.tareasdomesticas.hogar_service.hogares.infrastructure.adapter.in.dto.CrearHogarRequest;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
-import com.tareasdomesticas.hogar_service.hogares.infrastructure.adapter.in.DTO.CrearHogarResponse;
+import com.tareasdomesticas.hogar_service.hogares.infrastructure.adapter.in.dto.CrearHogarResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

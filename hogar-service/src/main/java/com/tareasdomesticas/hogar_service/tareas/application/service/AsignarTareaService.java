@@ -15,15 +15,14 @@ import com.tareasdomesticas.hogar_service.tareas.application.port.in.AsignarTare
 import com.tareasdomesticas.hogar_service.tareas.domain.model.DificultadTarea;
 import com.tareasdomesticas.hogar_service.tareas.domain.model.Tarea;
 import com.tareasdomesticas.hogar_service.tareas.domain.port.out.TareaRepository;
-import com.tareasdomesticas.hogar_service.tareas.application.DTO.AsignacionSemanalResponse;
-import com.tareasdomesticas.hogar_service.tareas.application.DTO.TareaAsignadaDTO;
-import com.tareasdomesticas.hogar_service.tareas.application.DTO.TareaExcedenteDTO;
+import com.tareasdomesticas.hogar_service.tareas.application.dto.AsignacionSemanalResponse;
+import com.tareasdomesticas.hogar_service.tareas.application.dto.TareaAsignadaDTO;
+import com.tareasdomesticas.hogar_service.tareas.application.dto.TareaExcedenteDTO;
 
 public class AsignarTareaService implements AsignarTareaUseCase {
 
     private final TareaRepository tareaRepository;
     private final HogarRepository hogarRepository;
-    private LocalDate ultimaAsignacion = null;
 
     public AsignarTareaService(TareaRepository tareaRepository, HogarRepository hogarRepository) {
         this.tareaRepository = tareaRepository;
@@ -33,10 +32,11 @@ public class AsignarTareaService implements AsignarTareaUseCase {
     @Override
     public AsignacionSemanalResponse asignarTareasSemanales(Long hogarId) {
 
-        if (ultimaAsignacion != null &&
-            ultimaAsignacion.plusDays(7).isAfter(LocalDate.now())) {
-            throw new IllegalStateException("Solo se puede asignar una vez por semana");
-        }
+        tareaRepository.obtenerUltimaAsignacion(hogarId).ifPresent(ultima -> {
+            if (ultima.plusDays(7).isAfter(LocalDate.now())) {
+                throw new IllegalStateException("Solo se puede asignar una vez por semana");
+            }
+        });
 
         Hogar hogar = hogarRepository.buscarPorId(hogarId)
                 .orElseThrow(() -> new IllegalStateException("No se encontró el hogar con id: " + hogarId));
@@ -98,7 +98,7 @@ public class AsignarTareaService implements AsignarTareaUseCase {
                     tarea.getEstado()));
         }
 
-        ultimaAsignacion = LocalDate.now();
+        tareaRepository.registrarUltimaAsignacion(hogarId, LocalDate.now());
 
         return new AsignacionSemanalResponse(
                 "Tareas asignadas correctamente",

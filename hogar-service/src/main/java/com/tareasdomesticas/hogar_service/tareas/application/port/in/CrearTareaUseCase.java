@@ -8,3 +8,4 @@ public interface CrearTareaUseCase {
     Tarea crearTarea(Long idHogar, String nombre, String foto, LocalDateTime fechaLimite, String dificultad, String prioridad);
 
 }
+

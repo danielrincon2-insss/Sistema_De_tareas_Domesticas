@@ -1,12 +1,16 @@
 package com.tareasdomesticas.hogar_service.tareas.infrastructure.adapter.out;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.IsoFields;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 import com.tareasdomesticas.hogar_service.tareas.domain.model.Tarea;
 import com.tareasdomesticas.hogar_service.tareas.domain.port.out.TareaRepository;
@@ -14,6 +18,7 @@ import com.tareasdomesticas.hogar_service.tareas.domain.port.out.TareaRepository
 public class InMemoryTareaRepository implements TareaRepository {
     private final List<Tarea> tareas = new ArrayList<>();
     private final AtomicLong idGenerator = new AtomicLong(1);
+    private final Map<Long, LocalDate> ultimasAsignaciones = new ConcurrentHashMap<>();
 
     @Override
     public synchronized Tarea guardar(Tarea tarea) {
@@ -32,7 +37,6 @@ public class InMemoryTareaRepository implements TareaRepository {
                     tarea.getDificultad(),
                     tarea.getPrioridad());
         }
-
         tareas.add(tareaToSave);
         return tareaToSave;
     }
@@ -42,23 +46,36 @@ public class InMemoryTareaRepository implements TareaRepository {
         return Collections.unmodifiableList(new ArrayList<>(tareas));
     }
 
+    @Override
     public synchronized List<Tarea> listarPorHogar(Long hogarId) {
         return tareas.stream()
                 .filter(t -> t.getIdHogar().equals(hogarId))
                 .collect(Collectors.toList());
     }
 
+    @Override
     public synchronized List<Tarea> listarPendientesPorHogar(Long hogarId) {
-    return tareas.stream()
-                 .filter(t -> t.getIdHogar().equals(hogarId) && t.esPendiente())
-                 .collect(Collectors.toList());
+        return tareas.stream()
+                .filter(t -> t.getIdHogar().equals(hogarId) && t.esPendiente())
+                .collect(Collectors.toList());
     }
+
+    @Override
     public synchronized boolean existeTareaConMismoNombreEnSemana(String nombre, LocalDateTime fechaLimite, Long hogarId) {
         int semana = fechaLimite.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
         return tareas.stream()
                 .anyMatch(t -> t.getNombreTarea().equalsIgnoreCase(nombre)
-                            && t.getSemana() == semana
-                            && t.getIdHogar().equals(hogarId));
+                        && t.getSemana() == semana
+                        && t.getIdHogar().equals(hogarId));
     }
 
+    @Override
+    public void registrarUltimaAsignacion(Long hogarId, LocalDate fecha) {
+        ultimasAsignaciones.put(hogarId, fecha);
+    }
+
+    @Override
+    public Optional<LocalDate> obtenerUltimaAsignacion(Long hogarId) {
+        return Optional.ofNullable(ultimasAsignaciones.get(hogarId));
+    }
 }

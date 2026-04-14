@@ -1,4 +1,4 @@
-package com.tareasdomesticas.hogar_service.tareas.application.DTO;
+package com.tareasdomesticas.hogar_service.tareas.application.dto;
 
 import com.tareasdomesticas.hogar_service.tareas.domain.model.DificultadTarea;
 import com.tareasdomesticas.hogar_service.tareas.domain.model.EstadoTarea;
@@ -9,8 +9,7 @@ public class TareaExcedenteDTO {
     private DificultadTarea dificultad;
     private EstadoTarea estado;
 
-    public TareaExcedenteDTO(Long idTarea, String nombre,
-            DificultadTarea dificultad, EstadoTarea estado) {
+    public TareaExcedenteDTO(Long idTarea, String nombre, DificultadTarea dificultad, EstadoTarea estado) {
         this.idTarea = idTarea;
         this.nombre = nombre;
         this.dificultad = dificultad;

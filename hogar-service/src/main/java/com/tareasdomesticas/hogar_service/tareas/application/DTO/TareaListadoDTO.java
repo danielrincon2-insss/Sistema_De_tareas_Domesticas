@@ -1,4 +1,4 @@
-package com.tareasdomesticas.hogar_service.tareas.application.DTO;
+package com.tareasdomesticas.hogar_service.tareas.application.dto;
 
 import java.time.LocalDateTime;
 import com.tareasdomesticas.hogar_service.tareas.domain.model.DificultadTarea;
@@ -12,12 +12,12 @@ public class TareaListadoDTO {
     private DificultadTarea dificultad;
     private PrioridadTarea prioridad;
     private EstadoTarea estado;
-    private Object usuarioAsignado;
+    private UsuarioAsignadoDTO usuarioAsignado;
     private LocalDateTime fechaLimite;
 
     public TareaListadoDTO(Long idTarea, Long idHogar, String nombre,
             DificultadTarea dificultad, PrioridadTarea prioridad,
-            EstadoTarea estado, Object usuarioAsignado, LocalDateTime fechaLimite) {
+            EstadoTarea estado, UsuarioAsignadoDTO usuarioAsignado, LocalDateTime fechaLimite) {
         this.idTarea = idTarea;
         this.idHogar = idHogar;
         this.nombre = nombre;
@@ -34,6 +34,6 @@ public class TareaListadoDTO {
     public DificultadTarea getDificultad() { return dificultad; }
     public PrioridadTarea getPrioridad() { return prioridad; }
     public EstadoTarea getEstado() { return estado; }
-    public Object getUsuarioAsignado() { return usuarioAsignado; }
+    public UsuarioAsignadoDTO getUsuarioAsignado() { return usuarioAsignado; }
     public LocalDateTime getFechaLimite() { return fechaLimite; }
 }

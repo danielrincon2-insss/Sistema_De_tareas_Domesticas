@@ -1,4 +1,4 @@
-package com.tareasdomesticas.hogar_service.tareas.application.DTO;
+package com.tareasdomesticas.hogar_service.tareas.application.dto;
 
 import com.tareasdomesticas.hogar_service.tareas.domain.model.DificultadTarea;
 import com.tareasdomesticas.hogar_service.tareas.domain.model.EstadoTarea;

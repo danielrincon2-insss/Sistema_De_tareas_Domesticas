@@ -13,6 +13,8 @@ import com.tareasdomesticas.hogar_service.tareas.application.service.AsignarTare
 import com.tareasdomesticas.hogar_service.tareas.application.service.CrearTareaService;
 import com.tareasdomesticas.hogar_service.tareas.domain.port.out.TareaRepository;
 import com.tareasdomesticas.hogar_service.tareas.infrastructure.adapter.out.InMemoryTareaRepository;
+import com.tareasdomesticas.hogar_service.tareas.application.port.in.ListarTareasUseCase;
+import com.tareasdomesticas.hogar_service.tareas.application.service.ListarTareasService;
 
 @Configuration
 public class BeanConfig {
@@ -37,5 +39,9 @@ public class BeanConfig {
     @Bean
     public AsignarTareaUseCase asignarTareaUseCase(TareaRepository tareaRepo, HogarRepository hogarRepo) {
         return new AsignarTareaService(tareaRepo, hogarRepo);
+    }
+    @Bean
+    public ListarTareasUseCase listarTareasUseCase(TareaRepository repo) {
+        return new ListarTareasService(repo);
     }
 }

@@ -1,4 +1,4 @@
-package com.tareasdomesticas.hogar_service.tareas.infrastructure.adapter.in.DTO;
+package com.tareasdomesticas.hogar_service.tareas.infrastructure.adapter.in.dto;
 
 import java.time.LocalDateTime;
 
