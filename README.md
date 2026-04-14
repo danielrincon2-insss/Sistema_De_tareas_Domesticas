@@ -54,7 +54,7 @@ Por ejemplo, AsignarTareaService implementa:
 
 Todo esto se realiza sin conocer si los datos provienen de una base de datos, una API externa o memoria.
 
-Los DTOs de respuesta (*AsignacionSemanalResponse*, *TareaAsignadaDTO*, *TareaExcedenteDTO*, *TareaListadoDTO*) también pertenecen a esta capa, ya que representan la información que el sistema devuelve al ejecutar un caso de uso. Definen qué datos se entregan al exterior sin depender de cómo se envían ni de tecnologías específicas.
+Los DTOs de respuesta (*AsignacionSemanalResponse*, *TareaAsignadaDTO*, *TareaExcedenteDTO*, *TareaListadoDTO*, *UsuarioAsignadoDTO*) también pertenecen a esta capa, ya que representan la información que el sistema devuelve al ejecutar un caso de uso. Definen qué datos se entregan al exterior sin depender de cómo se envían ni de tecnologías específicas.
 
 ### Adaptadores de entrada
 
@@ -177,6 +177,7 @@ src/
             │   │   │   └── TareaAsignadaDTO.java
             |   |   |   └── TareaExcedenteDTO.java
             |   |   |   └── TarealistadoDTO.java
+            |   |   |   └── UsuarioAsignadoDTO.java
             │   │   ├── port
             │   │   │   └── in
             │   │   │       ├── CrearTareaUseCase.java      
