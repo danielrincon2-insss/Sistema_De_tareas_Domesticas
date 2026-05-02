@@ -4,9 +4,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.tareasdomesticas.hogar_service.hogares.application.service.CrearHogarService;
+import com.tareasdomesticas.hogar_service.hogares.application.service.GestionInvitacionService;
 import com.tareasdomesticas.hogar_service.hogares.application.port.in.CrearHogarUseCase;
+import com.tareasdomesticas.hogar_service.hogares.application.port.in.GenerarInvitacionUseCase;
+import com.tareasdomesticas.hogar_service.hogares.application.port.in.RevocarInvitacionUseCase;
+import com.tareasdomesticas.hogar_service.hogares.application.port.in.UnirseHogarUseCase;
 import com.tareasdomesticas.hogar_service.hogares.domain.port.out.HogarRepository;
+import com.tareasdomesticas.hogar_service.hogares.domain.port.out.InvitacionRepository;
 import com.tareasdomesticas.hogar_service.hogares.infrastructure.adapter.out.InMemoryHogarRepository;
+import com.tareasdomesticas.hogar_service.hogares.infrastructure.adapter.out.InMemoryInvitacionRepository;
 import com.tareasdomesticas.hogar_service.tareas.application.port.in.AsignarTareaUseCase;
 import com.tareasdomesticas.hogar_service.tareas.application.port.in.CrearTareaUseCase;
 import com.tareasdomesticas.hogar_service.tareas.application.service.AsignarTareaService;
@@ -27,6 +33,27 @@ public class BeanConfig {
     public CrearHogarUseCase crearHogarUseCase(HogarRepository repo) {
         return new CrearHogarService(repo);
     }
+
+    @Bean
+    public InvitacionRepository invitacionRepository() {
+        return new InMemoryInvitacionRepository();
+    }
+
+    @Bean
+    public GenerarInvitacionUseCase generarInvitacionUseCase(HogarRepository hogarRepo, InvitacionRepository invitacionRepo) {
+        return new GestionInvitacionService(hogarRepo, invitacionRepo);
+    }
+
+    @Bean
+    public UnirseHogarUseCase unirseHogarUseCase(HogarRepository hogarRepo, InvitacionRepository invitacionRepo) {
+        return new GestionInvitacionService(hogarRepo, invitacionRepo);
+    }
+
+    @Bean
+    public RevocarInvitacionUseCase revocarInvitacionUseCase(HogarRepository hogarRepo, InvitacionRepository invitacionRepo) {
+        return new GestionInvitacionService(hogarRepo, invitacionRepo);
+    }
+
     @Bean
     public TareaRepository tareaRepository() {
         return new InMemoryTareaRepository();

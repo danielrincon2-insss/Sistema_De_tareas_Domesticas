@@ -6,6 +6,8 @@ import java.util.List;
 import com.tareasdomesticas.hogar_service.common.domain.model.Usuario;
 
 public class Hogar {
+    private static final int MAX_MIEMBROS = 6;
+
     private Integer idHogar;
     private String nombreHogar;
     private String descripcionHogar;
@@ -54,11 +56,33 @@ public class Hogar {
     public String getDescripcionHogar() {
         return descripcionHogar;
     }
+
+    public int getCantidadMiembros() {
+        return usuarios.size();
+    }
+
+    public boolean tieneMiembroConNombre(String nombreUsuario) {
+        return usuarios.stream()
+                .anyMatch(u -> u.getNombreUsuario() != null && u.getNombreUsuario().equalsIgnoreCase(nombreUsuario));
+    }
+
+    public boolean puedeAgregarMiembro() {
+        return usuarios.size() < MAX_MIEMBROS;
+    }
+
     public void agregarMiembro(Usuario usuario) {
         if (usuario == null) {
             throw new IllegalArgumentException("El usuario no puede ser nulo");
         }
+
+        if (!puedeAgregarMiembro()) {
+            throw new IllegalStateException("El hogar ya tiene 6 miembros registrados");
+        }
+
+        if (tieneMiembroConNombre(usuario.getNombreUsuario())) {
+            throw new IllegalArgumentException("El nombre ya está en uso");
+        }
+
         this.usuarios.add(usuario);
     }
-
 }
