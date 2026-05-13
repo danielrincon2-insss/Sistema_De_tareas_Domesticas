@@ -135,28 +135,18 @@ Por eso, es el único lugar del sistema donde se crean objetos concretos. Así, 
 
 ## Endpoints API
 
-### Usuarios
-- `POST /api/users` - Crear usuario
-- `GET /api/users/{id}` - Obtener usuario por ID
-- `GET /api/users` - Obtener todos los usuarios
-- `PUT /api/users/{id}` - Actualizar usuario
-- `DELETE /api/users/{id}` - Eliminar usuario
-
 ### Grupos
 - `POST /api/hogares` - Crear grupo
-- `GET /api/hogares/{id}` - Obtener grupo por ID
-- `GET /api/hogares` - Obtener todos los grupos
-- `PUT /api/hogares/{id}` - Actualizar grupo
-- `DELETE /api/hogares/{id}` - Eliminar grupo
+- `POST /api/hogares/{hogarId}/miembros` - Agregar miembro
+- `DELETE /api/hogares/{hogarId}/miembros` - Eliminar miembro
 
 ### Tareas
 - `POST /api/tareas` - Crear tarea
-- `GET /api/tareas/{id}` - Obtener tarea por ID
-- `GET /api/tareasgroup/{groupId}` - Obtener tareas por grupo
-- `GET /api/tareas/user/{userId}` - Obtener tareas por usuario
-- `PUT /api/tareas/{id}` - Actualizar tarea
-- `PATCH /api/tareas/{id}/status` - Actualizar estado de tarea
-- `DELETE /api/tareas/{id}` - Eliminar tarea
+- `PUT /api/tareas/{idTarea}` - Editar tarea
+- `DELETE /api/tareas/{idTarea}` - Eliminar tarea
+- `PATCH /api/tareas/{idTarea}/estado` - Cambiar estado de tarea
+- `GET /api/tareas/hogares/{hogarId}` - Listar tareas por hogar
+- `GET /api/tareas/hogares/{hogarId}/filtrar` - Filtrar tareas por hogar
 - `POST /api/tareas/hogares/{hogarId}/asignacion-semanal` - Asignar tareas
 
 ## Estructura del Proyecto
@@ -183,60 +173,125 @@ src/
             │   │           └── HogarRepository.java
             │   
             │   ├── application
+            │   │   ├── dto
+            │   │   │   └── CrearHogarResultDTO.java
+            │   │   │   └── MiembroDTO.java
             │   │   ├── port
             │   │   │   └── in
-            │   │   │       └── CrearHogarUseCase.java   
+            │   │   │       └── AgregraMiembroCommand.java
+            │   │   │       └── AgregarMiembroUseCase.java
+            │   │   │       └── CrearHogarCommand.java   
+            │   │   │       └── CrearHogarUseCase.java
+            │   │   │       └── EliminarMiembroCommand.java
+            │   │   │       └── EliminarMiembroUseCase.java   
             │   │   └── service
+            │   │       └── AgregarMiembroService.java
             │   │       └── CrearHogarService.java
+            │   │       └── EliminarMiembroService.java
             │
             │   └── infrastructure
             │       └── adapter
             │           ├── in
             |           |   └── dto
+            |           |   |    └── AgregarMiembroRequest.java
             |           |   |    └── CrearHogarRequest.java
             |           |   |    └── CrearHogarResponse.java
+            |           |   |    └── EliminarMiembroRequest.java
             │           │   └── HogarController.java
             │           └── out
-            │               └── InMemoryHogarRepository.java            
+            │           |   └── jpa
+            |           |   |   └── entity
+            |           |   |       └── HogarEntity.java
+            |           |   |       └── UsuarioEntity.java
+            |           |   |   └── mapper
+            |           |   |       └── HogarMapper.java
+            |           |   |   └── repository
+            |           |   |       └── HogarJpaRepository.java
+            |           |   |       └── UsuarioJpaRepository.java
+            |           |   |   └── JpaHogarRepositoryAdapter.java
+            │           │   └── ObtenerMiembrosHogarAdapter.java
             ├── tareas
             │   ├── domain
             │   │   ├── model
-            │   │   │   └── Tarea.java
+            │   │   │   └── AsignacionSemanal.java
+            │   │   │   └── AsignacionSemanalTarea.java
             |   |   |   ├── DificultadTarea.java
+            │   │   │   └── EstadoTarea.java
             |   |   |   ├── PrioridadTarea.java
-            |   |   |   └── EstadoTarea.java
+            |   |   |   └── Tarea.java
             │   │   └── port
             │   │       └── out
+            │   │           └── AsignacionSemanalRepository.java
             │   │           └── TareaRepository.java
             │
             │   ├── application
+            │   │   ├── assembler
+            │   │   │   └── TareaListadoAssembler.java
             │   │   ├── dto
-            |   |   |   ├── AsignacionSemanalResponse.java    
+            |   |   |   ├── AsignacionSemanalResponse.java
+            │   │   │   └── CrearTareaResultDTO.java
+            │   │   │   └── FiltroTareasDTO.java
             │   │   │   └── TareaAsignadaDTO.java
             |   |   |   └── TareaExcedenteDTO.java
             |   |   |   └── TarealistadoDTO.java
             |   |   |   └── UsuarioAsignadoDTO.java
             │   │   ├── port
-            │   │   │   └── in
-            │   │   │       ├── CrearTareaUseCase.java      
+            │   │   │   └── in  
             │   │   │       └── AsignarTareaUseCase.java
+            │   │   │       └── CambiarEstadoCommand.java
+            │   │   │       └── CambiarEstadoTareaUseCase.java
+            │   │   │       └── CrearTareaCommand.java
+            │   │   │       └── CrearTareaUseCase.java
+            │   │   │       └── EditarTareaCommand.java
+            │   │   │       └── EditarTareaUseCase.java
+            │   │   │       └── EliminarTareaUseCase.java
+            │   │   │       └── FiltrarTareasUseCase.java
             │   │   │       └── ListarTareasUseCase.java
+            │   │   │   └── out
+            │   │   │       └── LiberarTareasPort.java
+            │   │   │       └── ObtenerMiembrosHogarPort.java
             │   │   └── service
-            │   │       ├── CrearTareaService.java
             │   │       └── AsignarTareaService.java
+            │   │       ├── CambiarEstadoTareaService.java
+            │   │       ├── CrearTareaService.java
+            │   │       ├── EditarTareaService.java
+            │   │       ├── EliminarTareaService.java
+            │   │       ├── FiltrarTareasService.java
             │   │       └── ListarTareasService.java
             │
             │   └── infrastructure
             │       └── adapter
             │           ├── in
             |           |   └── dto
+            |           |   |    └── CambiarEstadoRequest.java
             |           |   |    └── CrearTareaRequest.java
             |           |   |    └── CrearTareaResponse.java
+            |           |   |    └── EditarTareaRequest.java
+            |           |   |    └── FiltrarTareasRequest.java
             │           │   └── TareaController.java
             │           └── out
-            │               └── InMemoryTareaRepository.java  
+            │           |   └── jpa
+            |           |   |   └── entity
+            |           |   |       └── AsignacionSemanalEntity.java
+            |           |   |       └── AsignacionSemanalTareaEntity.java
+            |           |   |       └── AsignacionSemanalTareaId.java
+            |           |   |       └── TareaEntity.java
+            |           |   |   └── mapper
+            |           |   |       └── AsignacionMapper.java
+            |           |   |       └── TareaMapper.java
+            |           |   |   └── repository
+            |           |   |       └── AsignacionSemanalJpaRepository.java
+            |           |   |       └── AsignacionSemanalTareaJpaRepository.java
+            |           |   |       └── TareaJpaRepository.java
+            |           |   |   └── JpaAsignacionSemanalRepositoryAdapter.java
+            |           |   |   └── JpaTareaRepositoryAdapter.java
+            │           │   └── LiberarTareasAdapter.java
             └── config
                 └── BeanConfig.java
+                └── CorsConfig.java
+            └── infrastructure
+                └── exception
+                    └── GlobalExceptionHandler.java
 
 ```
 
